@@ -1,0 +1,1 @@
+{"flutter":{"platforms":{"android":{"default":{"projectId":"labrix-wageflow","appId":"1:764936692612:android:81a105d875e0061e4cb3d1","fileOutput":"android/app/google-services.json"}},"dart":{"lib/firebase_options.dart":{"projectId":"labrix-wageflow","configurations":{"android":"1:764936692612:android:81a105d875e0061e4cb3d1","ios":"1:764936692612:ios:b91b30448f1c4b1e4cb3d1"}}}}}}
