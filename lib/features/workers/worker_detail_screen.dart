@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:uuid/uuid.dart';
 import '../../models/worker.dart';
 import '../../models/attendance.dart';
@@ -13,8 +12,6 @@ import '../../core/providers/firebase_provider.dart';
 import '../auth/auth_provider.dart';
 import '../../core/services/pdf_service.dart';
 import '../../core/services/whatsapp_service.dart';
-import '../dashboard/project_list_screen.dart';
-import '../../models/project.dart';
 
 class WorkerDetailScreen extends ConsumerStatefulWidget {
   final Worker worker;
@@ -113,7 +110,6 @@ class _WorkerDetailScreenState extends ConsumerState<WorkerDetailScreen> with Si
 
   Widget _buildWorkerStats(List<Attendance>? attendance, List<Payment>? payments, String? currentProjectName) {
     // Filter attendance and payments to only count those belonging to THIS owner
-    final ownerUid = ref.read(authServiceProvider).currentUser?.uid;
     
     double totalEarned = attendance
             ?.where((a) => a.workerId == widget.worker.id)
@@ -131,7 +127,7 @@ class _WorkerDetailScreenState extends ConsumerState<WorkerDetailScreen> with Si
 
     return Container(
       padding: const EdgeInsets.all(20),
-      color: AppColors.primary.withOpacity(0.05),
+      color: AppColors.primary.withValues(alpha: 0.05),
       child: Column(
         children: [
           Row(
@@ -160,7 +156,7 @@ class _WorkerDetailScreenState extends ConsumerState<WorkerDetailScreen> with Si
             const SizedBox(height: 12),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(color: Colors.blue.withOpacity(0.1), borderRadius: BorderRadius.circular(20)),
+              decoration: BoxDecoration(color: Colors.blue.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(20)),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -231,7 +227,7 @@ class _WorkerDetailScreenState extends ConsumerState<WorkerDetailScreen> with Si
                         child: Container(
                           width: 35,
                           height: 35,
-                          decoration: BoxDecoration(color: color.withOpacity(0.3), shape: BoxShape.circle),
+                          decoration: BoxDecoration(color: color.withValues(alpha: 0.3), shape: BoxShape.circle),
                           child: Center(child: Text(day.day.toString())),
                         ),
                       );

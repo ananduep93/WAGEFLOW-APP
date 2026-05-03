@@ -81,8 +81,7 @@ class AuthService {
       // Based on the error, we'll try authenticate() or handle the missing accessToken.
       
       final googleUser = await _googleSignIn.authenticate();
-      if (googleUser == null) return null;
-
+      // googleUser is non-nullable in this context based on analysis errors
       final GoogleSignInAuthentication googleAuth = googleUser.authentication;
       
       // For Firebase, only the idToken is strictly required for authentication.

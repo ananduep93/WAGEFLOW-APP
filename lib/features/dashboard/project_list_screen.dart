@@ -47,7 +47,7 @@ class ProjectListScreen extends ConsumerWidget {
                 child: ListTile(
                   contentPadding: const EdgeInsets.all(16),
                   leading: CircleAvatar(
-                    backgroundColor: AppColors.primary.withOpacity(0.1),
+                    backgroundColor: AppColors.primary.withValues(alpha: 0.1),
                     child: const Icon(Icons.business, color: AppColors.primary),
                   ),
                   title: Text(project.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),

@@ -77,7 +77,7 @@ class ProjectDetailScreen extends ConsumerWidget {
                               margin: const EdgeInsets.only(bottom: 8),
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12), side: BorderSide(color: Colors.grey.shade200)),
                               child: ListTile(
-                                leading: CircleAvatar(backgroundColor: AppColors.primary.withOpacity(0.1), child: Text(worker.name[0])),
+                                leading: CircleAvatar(backgroundColor: AppColors.primary.withValues(alpha: 0.1), child: Text(worker.name[0])),
                                 title: Text(worker.name, style: const TextStyle(fontWeight: FontWeight.bold)),
                                 subtitle: Text(worker.phone),
                                 trailing: IconButton(
@@ -162,9 +162,9 @@ class ProjectDetailScreen extends ConsumerWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: LinearGradient(colors: [AppColors.primary, AppColors.primary.withOpacity(0.8)]),
+        gradient: LinearGradient(colors: [AppColors.primary, AppColors.primary.withValues(alpha: 0.8)]),
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: AppColors.primary.withOpacity(0.3), blurRadius: 10, offset: const Offset(0, 5))],
+        boxShadow: [BoxShadow(color: AppColors.primary.withValues(alpha: 0.3), blurRadius: 10, offset: const Offset(0, 5))],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -175,7 +175,7 @@ class ProjectDetailScreen extends ConsumerWidget {
               const Icon(Icons.architecture, color: Colors.white, size: 30),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(color: Colors.white.withOpacity(0.2), borderRadius: BorderRadius.circular(20)),
+                decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(20)),
                 child: Text(profit >= 0 ? 'Profitable' : 'Loss', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)),
               ),
             ],

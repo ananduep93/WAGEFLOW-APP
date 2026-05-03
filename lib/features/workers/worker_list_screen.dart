@@ -41,7 +41,7 @@ class WorkerListScreen extends ConsumerWidget {
                       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       leading: CircleAvatar(
                         radius: 25,
-                        backgroundColor: AppColors.primary.withOpacity(0.1),
+                        backgroundColor: AppColors.primary.withValues(alpha: 0.1),
                         child: Text(
                           worker.name[0].toUpperCase(),
                           style: const TextStyle(

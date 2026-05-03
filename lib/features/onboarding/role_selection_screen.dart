@@ -121,9 +121,9 @@ class _RoleSelectionScreenState extends ConsumerState<RoleSelectionScreen> {
       child: Container(
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          border: Border.all(color: color.withOpacity(0.3), width: 2),
+          border: Border.all(color: color.withValues(alpha: 0.3), width: 2),
           borderRadius: BorderRadius.circular(20),
-          color: color.withOpacity(0.05),
+          color: color.withValues(alpha: 0.05),
         ),
         child: Row(
           children: [

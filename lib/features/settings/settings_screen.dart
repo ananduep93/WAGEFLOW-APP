@@ -76,7 +76,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               Navigator.pop(context);
               // In a real app, you would call firebase deletion logic here
               await ref.read(authServiceProvider).signOut();
-              if (mounted) {
+              if (context.mounted) {
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (context) => const LoginScreen()),
                   (route) => false,
@@ -109,7 +109,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
             onPressed: () async {
               Navigator.pop(context);
               await ref.read(authServiceProvider).signOut();
-              if (mounted) {
+              if (context.mounted) {
                 Navigator.of(context).pushAndRemoveUntil(
                   MaterialPageRoute(builder: (context) => const LoginScreen()),
                   (route) => false,

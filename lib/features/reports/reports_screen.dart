@@ -13,9 +13,9 @@ class ReportsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final workers = ref.watch(workerProvider).value ?? [];
-    final attendance = ref.watch(attendanceProvider).value ?? [];
-    final payments = ref.watch(paymentProvider).value ?? [];
+    final workers = ref.watch(workerProvider);
+    final attendance = ref.watch(attendanceProvider);
+    final payments = ref.watch(paymentProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -59,7 +59,7 @@ class ReportsScreen extends ConsumerWidget {
         leading: Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: AppColors.primary.withOpacity(0.1),
+            color: AppColors.primary.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Icon(icon, color: AppColors.primary),
