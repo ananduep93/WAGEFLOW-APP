@@ -112,7 +112,7 @@ class ProjectListScreen extends ConsumerWidget {
               const SizedBox(height: 16),
               TextField(
                 controller: amountController,
-                decoration: const InputDecoration(labelText: 'Contract Amount (₹)', border: OutlineInputBorder()),
+                decoration: const InputDecoration(labelText: 'Contract Amount (₹) (Optional)', border: OutlineInputBorder()),
                 keyboardType: TextInputType.number,
               ),
             ],
@@ -122,7 +122,7 @@ class ProjectListScreen extends ConsumerWidget {
           TextButton(onPressed: () => Navigator.pop(context), child: const Text('Cancel')),
           ElevatedButton(
             onPressed: () async {
-              if (nameController.text.isNotEmpty && amountController.text.isNotEmpty) {
+              if (nameController.text.isNotEmpty) {
                 final project = Project(
                   id: const Uuid().v4(),
                   name: nameController.text.trim(),

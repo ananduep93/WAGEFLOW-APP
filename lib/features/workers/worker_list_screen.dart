@@ -134,7 +134,7 @@ class WorkerListScreen extends ConsumerWidget {
             TextField(
               controller: emailController,
               decoration: const InputDecoration(
-                labelText: 'Worker Email (Optional)',
+                labelText: 'Worker Email',
                 hintText: 'Used to link their account',
                 prefixIcon: Icon(Icons.email_outlined),
               ),
@@ -161,13 +161,16 @@ class WorkerListScreen extends ConsumerWidget {
             const SizedBox(height: 32),
             ElevatedButton(
               onPressed: () async {
-                if (nameController.text.isNotEmpty && wageController.text.isNotEmpty) {
+                if (nameController.text.isNotEmpty && 
+                    emailController.text.isNotEmpty &&
+                    phoneController.text.isNotEmpty &&
+                    wageController.text.isNotEmpty) {
                   final worker = Worker(
                     id: const Uuid().v4(),
-                    name: nameController.text,
-                    phone: phoneController.text,
-                    email: emailController.text.trim().isEmpty ? null : emailController.text.trim(),
-                    wageRate: double.parse(wageController.text),
+                    name: nameController.text.trim(),
+                    phone: phoneController.text.trim(),
+                    email: emailController.text.trim(),
+                    wageRate: double.tryParse(wageController.text) ?? 0,
                   );
                   await ref.read(firebaseServiceProvider).addWorker(worker);
                   if (context.mounted) Navigator.pop(context);
