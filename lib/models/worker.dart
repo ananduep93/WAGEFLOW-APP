@@ -11,13 +11,13 @@ class Worker extends HiveObject {
   final String name;
 
   @HiveField(2)
-  final String phone;
+  final String? phone;
 
   @HiveField(3)
   final double wageRate;
 
   @HiveField(4)
-  final String? email; // Added email for linking to Worker accounts
+  final String email; // Made mandatory for linking
 
   @HiveField(5)
   final String? businessId; // The Owner's UID
@@ -31,9 +31,9 @@ class Worker extends HiveObject {
   Worker({
     required this.id,
     required this.name,
-    required this.phone,
+    this.phone,
     required this.wageRate,
-    this.email,
+    required this.email,
     this.businessId,
     this.rating = 0,
     this.projectId,
@@ -56,9 +56,9 @@ class Worker extends HiveObject {
     return Worker(
       id: map['id'] ?? '',
       name: map['name'] ?? '',
-      phone: map['phone'] ?? '',
+      phone: map['phone'],
       wageRate: (map['wageRate'] ?? 0.0).toDouble(),
-      email: map['email'],
+      email: map['email'] ?? '',
       businessId: map['businessId'],
       rating: (map['rating'] ?? 0.0).toDouble(),
       projectId: map['projectId'],

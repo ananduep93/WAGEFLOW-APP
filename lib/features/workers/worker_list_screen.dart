@@ -68,7 +68,7 @@ class WorkerListScreen extends ConsumerWidget {
                         ],
                       ),
                       subtitle: Text(
-                        '${worker.phone} • ₹${worker.wageRate}/day',
+                        '${worker.phone ?? "No phone"} • ₹${worker.wageRate}/day',
                         style: TextStyle(color: Colors.grey.shade600),
                       ),
                       trailing: const Icon(Icons.chevron_right),
@@ -134,8 +134,8 @@ class WorkerListScreen extends ConsumerWidget {
             TextField(
               controller: emailController,
               decoration: const InputDecoration(
-                labelText: 'Worker Email',
-                hintText: 'Used to link their account',
+                labelText: 'Worker Email (Mandatory)',
+                hintText: 'Used to link their worker account',
                 prefixIcon: Icon(Icons.email_outlined),
               ),
               keyboardType: TextInputType.emailAddress,
@@ -144,7 +144,8 @@ class WorkerListScreen extends ConsumerWidget {
             TextField(
               controller: phoneController,
               decoration: const InputDecoration(
-                labelText: 'Phone Number',
+                labelText: 'Phone Number (Optional)',
+                hintText: 'For WhatsApp alerts',
                 prefixIcon: Icon(Icons.phone_outlined),
               ),
               keyboardType: TextInputType.phone,
@@ -163,12 +164,11 @@ class WorkerListScreen extends ConsumerWidget {
               onPressed: () async {
                 if (nameController.text.isNotEmpty && 
                     emailController.text.isNotEmpty &&
-                    phoneController.text.isNotEmpty &&
                     wageController.text.isNotEmpty) {
                   final worker = Worker(
                     id: const Uuid().v4(),
                     name: nameController.text.trim(),
-                    phone: phoneController.text.trim(),
+                    phone: phoneController.text.trim().isEmpty ? null : phoneController.text.trim(),
                     email: emailController.text.trim(),
                     wageRate: double.tryParse(wageController.text) ?? 0,
                   );

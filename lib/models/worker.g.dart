@@ -19,16 +19,19 @@ class WorkerAdapter extends TypeAdapter<Worker> {
     return Worker(
       id: fields[0] as String,
       name: fields[1] as String,
-      phone: fields[2] as String,
+      phone: fields[2] as String?,
       wageRate: fields[3] as double,
-      businessId: fields[4] as String?,
+      email: fields[4] as String,
+      businessId: fields[5] as String?,
+      rating: fields[6] as double,
+      projectId: fields[7] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Worker obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -38,7 +41,13 @@ class WorkerAdapter extends TypeAdapter<Worker> {
       ..writeByte(3)
       ..write(obj.wageRate)
       ..writeByte(4)
-      ..write(obj.businessId);
+      ..write(obj.email)
+      ..writeByte(5)
+      ..write(obj.businessId)
+      ..writeByte(6)
+      ..write(obj.rating)
+      ..writeByte(7)
+      ..write(obj.projectId);
   }
 
   @override

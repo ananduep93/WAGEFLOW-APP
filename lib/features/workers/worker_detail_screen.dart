@@ -386,7 +386,7 @@ class _WorkerDetailScreenState extends ConsumerState<WorkerDetailScreen> with Si
 
     await ref.read(firebaseServiceProvider).markAttendance(attendance);
 
-    if (notifyWhatsApp && widget.worker.phone.isNotEmpty) {
+    if (notifyWhatsApp && widget.worker.phone != null && widget.worker.phone!.isNotEmpty) {
       final dateStr = DateFormat('dd MMM yyyy').format(attendance.date);
       final msg = WhatsAppService.formatAttendanceMessage(
         widget.worker.name, 
@@ -394,7 +394,7 @@ class _WorkerDetailScreenState extends ConsumerState<WorkerDetailScreen> with Si
         status.name, 
         wage
       );
-      await WhatsAppService.sendMessage(phone: widget.worker.phone, message: msg);
+      await WhatsAppService.sendMessage(phone: widget.worker.phone!, message: msg);
     }
   }
 
@@ -478,7 +478,7 @@ class _WorkerDetailScreenState extends ConsumerState<WorkerDetailScreen> with Si
                   );
                   await ref.read(firebaseServiceProvider).addPayment(payment);
                   
-                  if (notifyWhatsApp && widget.worker.phone.isNotEmpty) {
+                  if (notifyWhatsApp && widget.worker.phone != null && widget.worker.phone!.isNotEmpty) {
                     final dateStr = DateFormat('dd MMM yyyy').format(payment.date);
                     final msg = WhatsAppService.formatPaymentMessage(
                       widget.worker.name, 
@@ -487,7 +487,7 @@ class _WorkerDetailScreenState extends ConsumerState<WorkerDetailScreen> with Si
                       payment.method.name, 
                       payment.note
                     );
-                    await WhatsAppService.sendMessage(phone: widget.worker.phone, message: msg);
+                    await WhatsAppService.sendMessage(phone: widget.worker.phone!, message: msg);
                   }
 
                   if (context.mounted) Navigator.pop(context);
@@ -521,7 +521,7 @@ class _WorkerDetailScreenState extends ConsumerState<WorkerDetailScreen> with Si
 
   void _showEditWorkerDialog(BuildContext context) {
     final nameController = TextEditingController(text: widget.worker.name);
-    final phoneController = TextEditingController(text: widget.worker.phone);
+    final phoneController = TextEditingController(text: widget.worker.phone ?? '');
     final wageController = TextEditingController(text: widget.worker.wageRate.toString());
     bool isSaving = false;
 
@@ -541,7 +541,7 @@ class _WorkerDetailScreenState extends ConsumerState<WorkerDetailScreen> with Si
               const SizedBox(height: 16),
               TextField(
                 controller: phoneController,
-                decoration: const InputDecoration(labelText: 'Phone', border: OutlineInputBorder()),
+                decoration: const InputDecoration(labelText: 'Phone (Optional)', border: OutlineInputBorder()),
                 keyboardType: TextInputType.phone,
                 enabled: !isSaving,
               ),
@@ -564,7 +564,7 @@ class _WorkerDetailScreenState extends ConsumerState<WorkerDetailScreen> with Si
                 final updatedWorker = Worker(
                   id: widget.worker.id,
                   name: nameController.text.trim(),
-                  phone: phoneController.text.trim(),
+                  phone: phoneController.text.trim().isEmpty ? null : phoneController.text.trim(),
                   wageRate: double.tryParse(wageController.text) ?? 0,
                   businessId: widget.worker.businessId,
                   email: widget.worker.email,

@@ -25,7 +25,8 @@ class ProjectDetailScreen extends ConsumerWidget {
 
               final totalEarnedByWorkers = projectAttendance.fold(0.0, (sum, a) => sum + a.calculatedWage);
               final totalPaidToWorkers = projectPayments.fold(0.0, (sum, p) => sum + p.amount);
-              final profit = project.contractAmount - totalEarnedByWorkers;
+              final hasContract = project.contractAmount != null && project.contractAmount! > 0;
+              final profit = (project.contractAmount ?? 0) - totalEarnedByWorkers;
 
               final workersAsync = ref.watch(workersStreamProvider);
 
@@ -34,15 +35,15 @@ class ProjectDetailScreen extends ConsumerWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildSiteOverviewCard(project, profit),
+                    _buildSiteOverviewCard(project, profit, totalEarnedByWorkers),
                     const SizedBox(height: 24),
                     const Text('Project Economics', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 12),
-                    _buildEconomicsRow('Contract Value', project.contractAmount, Colors.blue),
+                    if (hasContract) _buildEconomicsRow('Contract Value', project.contractAmount!, Colors.blue),
                     _buildEconomicsRow('Labor Cost (Earned)', totalEarnedByWorkers, Colors.red),
                     _buildEconomicsRow('Actual Paid', totalPaidToWorkers, Colors.green),
                     const Divider(height: 32),
-                    _buildEconomicsRow('Net Profit (Estimated)', profit, profit >= 0 ? Colors.green : Colors.red, isBold: true),
+                    if (hasContract) _buildEconomicsRow('Net Profit (Estimated)', profit, profit >= 0 ? Colors.green : Colors.red, isBold: true),
                     const SizedBox(height: 32),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,7 +80,7 @@ class ProjectDetailScreen extends ConsumerWidget {
                               child: ListTile(
                                 leading: CircleAvatar(backgroundColor: AppColors.primary.withValues(alpha: 0.1), child: Text(worker.name[0])),
                                 title: Text(worker.name, style: const TextStyle(fontWeight: FontWeight.bold)),
-                                subtitle: Text(worker.phone),
+                                subtitle: Text(worker.phone ?? 'No phone'),
                                 trailing: IconButton(
                                   icon: const Icon(Icons.person_remove_outlined, color: Colors.red, size: 20),
                                   onPressed: () => ref.read(firebaseServiceProvider).assignWorkerToProject(worker.id, null),
@@ -95,14 +96,17 @@ class ProjectDetailScreen extends ConsumerWidget {
                     const SizedBox(height: 32),
                     const Text('Project Status', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
                     const SizedBox(height: 12),
-                    LinearProgressIndicator(
-                      value: project.contractAmount > 0 ? (totalEarnedByWorkers / project.contractAmount).clamp(0, 1) : 0,
-                      backgroundColor: Colors.grey.shade200,
-                      color: AppColors.primary,
-                      minHeight: 10,
-                    ),
-                    const SizedBox(height: 8),
-                    Text('${((totalEarnedByWorkers / project.contractAmount) * 100).toStringAsFixed(1)}% of budget spent on labor', style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                    if (hasContract) ...[
+                      LinearProgressIndicator(
+                        value: (totalEarnedByWorkers / project.contractAmount!).clamp(0, 1),
+                        backgroundColor: Colors.grey.shade200,
+                        color: AppColors.primary,
+                        minHeight: 10,
+                      ),
+                      const SizedBox(height: 8),
+                      Text('${((totalEarnedByWorkers / project.contractAmount!) * 100).toStringAsFixed(1)}% of budget spent on labor', style: const TextStyle(fontSize: 12, color: Colors.grey)),
+                    ] else
+                      const Text('Budget not set for this project', style: TextStyle(color: Colors.grey, fontSize: 12)),
                   ],
                 ),
               );
@@ -157,7 +161,7 @@ class ProjectDetailScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildSiteOverviewCard(Project project, double profit) {
+  Widget _buildSiteOverviewCard(Project project, double profit, double laborCost) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
@@ -176,13 +180,13 @@ class ProjectDetailScreen extends ConsumerWidget {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(20)),
-                child: Text(profit >= 0 ? 'Profitable' : 'Loss', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)),
+                child: Text(project.contractAmount != null ? (profit >= 0 ? 'Profitable' : 'Loss') : 'Labor Tracker', style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)),
               ),
             ],
           ),
           const SizedBox(height: 16),
-          const Text('Total Estimated Profit', style: TextStyle(color: Colors.white70, fontSize: 14)),
-          Text('₹${NumberFormat('#,###').format(profit)}', style: const TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold)),
+          Text(project.contractAmount != null ? 'Total Estimated Profit' : 'Total Labor Cost', style: const TextStyle(color: Colors.white70, fontSize: 14)),
+          Text('₹${NumberFormat('#,###').format(project.contractAmount != null ? profit : laborCost)}', style: const TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold)),
           const SizedBox(height: 8),
           Row(
             children: [

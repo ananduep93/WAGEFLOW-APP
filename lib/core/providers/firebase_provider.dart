@@ -48,3 +48,11 @@ final advanceRequestsForWorkerProvider = StreamProvider.family<List<AdvanceReque
 final ownerAdvanceRequestsProvider = StreamProvider<List<AdvanceRequest>>((ref) {
   return ref.watch(firebaseServiceProvider).getAdvanceRequestsForOwner();
 });
+
+final pendingAdvanceRequestsCountProvider = Provider<int>((ref) {
+  final requestsAsync = ref.watch(ownerAdvanceRequestsProvider);
+  return requestsAsync.maybeWhen(
+    data: (requests) => requests.where((r) => r.status == AdvanceStatus.pending).length,
+    orElse: () => 0,
+  );
+});

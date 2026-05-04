@@ -63,7 +63,10 @@ class ProjectListScreen extends ConsumerWidget {
                         ],
                       ),
                       const SizedBox(height: 4),
-                      Text('Contract: ₹${project.contractAmount}', style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.blue)),
+                      if (project.contractAmount != null)
+                        Text('Contract: ₹${project.contractAmount}', style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.blue))
+                      else
+                        const Text('Budget not set', style: TextStyle(color: Colors.grey, fontSize: 12)),
                     ],
                   ),
                   trailing: const Icon(Icons.chevron_right),
@@ -127,7 +130,7 @@ class ProjectListScreen extends ConsumerWidget {
                   id: const Uuid().v4(),
                   name: nameController.text.trim(),
                   location: locationController.text.trim(),
-                  contractAmount: double.tryParse(amountController.text) ?? 0,
+                  contractAmount: amountController.text.isNotEmpty ? double.tryParse(amountController.text) : null,
                   businessId: '', // Set by service
                   createdAt: DateTime.now(),
                 );

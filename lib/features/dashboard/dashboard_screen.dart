@@ -11,6 +11,7 @@ import '../settings/settings_screen.dart';
 import '../workers/worker_list_screen.dart';
 import 'advance_requests_screen.dart';
 import 'project_list_screen.dart';
+import '../../core/providers/firebase_provider.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
@@ -52,12 +53,19 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             backgroundColor: Colors.white,
             elevation: 8,
             items: isOwner 
-              ? const [
-                  BottomNavigationBarItem(icon: Icon(Icons.dashboard_outlined), label: 'Overview'),
-                  BottomNavigationBarItem(icon: Icon(Icons.architecture), label: 'Sites'),
-                  BottomNavigationBarItem(icon: Icon(Icons.people_outline), label: 'Workers'),
-                  BottomNavigationBarItem(icon: Icon(Icons.notifications_active_outlined), label: 'Requests'),
-                  BottomNavigationBarItem(icon: Icon(Icons.settings_outlined), label: 'Settings'),
+              ? [
+                  const BottomNavigationBarItem(icon: Icon(Icons.dashboard_outlined), label: 'Overview'),
+                  const BottomNavigationBarItem(icon: Icon(Icons.architecture), label: 'Sites'),
+                  const BottomNavigationBarItem(icon: Icon(Icons.people_outline), label: 'Workers'),
+                  BottomNavigationBarItem(
+                    icon: Badge(
+                      label: Text(ref.watch(pendingAdvanceRequestsCountProvider).toString()),
+                      isLabelVisible: ref.watch(pendingAdvanceRequestsCountProvider) > 0,
+                      child: const Icon(Icons.notifications_active_outlined),
+                    ), 
+                    label: 'Requests',
+                  ),
+                  const BottomNavigationBarItem(icon: Icon(Icons.settings_outlined), label: 'Settings'),
                 ]
               : const [
                   BottomNavigationBarItem(icon: Icon(Icons.dashboard_outlined), label: 'My Wages'),

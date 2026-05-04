@@ -18,10 +18,11 @@ class WorkerNotifier extends StateNotifier<List<Worker>> {
     state = _box.values.toList();
   }
 
-  Future<void> addWorker(String name, String phone, double wageRate) async {
+  Future<void> addWorker(String name, String email, String phone, double wageRate) async {
     final worker = Worker(
       id: const Uuid().v4(),
       name: name,
+      email: email,
       phone: phone,
       wageRate: wageRate,
     );

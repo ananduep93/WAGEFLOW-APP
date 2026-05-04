@@ -14,7 +14,7 @@ class Project extends HiveObject {
   final String location;
 
   @HiveField(3)
-  final double contractAmount;
+  final double? contractAmount;
 
   @HiveField(4)
   final String businessId;
@@ -26,7 +26,7 @@ class Project extends HiveObject {
     required this.id,
     required this.name,
     required this.location,
-    required this.contractAmount,
+    this.contractAmount,
     required this.businessId,
     required this.createdAt,
   });
@@ -47,7 +47,7 @@ class Project extends HiveObject {
       id: map['id'] ?? '',
       name: map['name'] ?? '',
       location: map['location'] ?? '',
-      contractAmount: (map['contractAmount'] ?? 0.0).toDouble(),
+      contractAmount: map['contractAmount'] != null ? (map['contractAmount'] as num).toDouble() : null,
       businessId: map['businessId'] ?? '',
       createdAt: DateTime.parse(map['createdAt']),
     );
