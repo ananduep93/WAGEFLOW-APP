@@ -19,24 +19,6 @@ A simple and powerful Flutter application for entrepreneurs to manage labour att
 - **Firebase**: Firestore & Auth (Ready for integration)
 - **PDF & Printing**: Document generation
 
-## Getting Started 🛠️
-
-### Prerequisites
-- Flutter SDK (latest stable)
-- Android Studio / VS Code
-- Firebase account (optional for local prototype)
-
-### Installation
-1. Clone the repository or copy the files.
-2. Run `flutter pub get` to install dependencies.
-3. Run `flutter pub run build_runner build` to generate Hive adapters.
-4. Run `flutter run` to launch the app.
-
-### Firebase Setup
-To enable cloud sync:
-1. Create a project in Firebase Console.
-2. Run `flutterfire configure` to generate `firebase_options.dart`.
-3. Uncomment the Firebase initialization in `lib/main.dart`.
 
 ## Project Structure 📁
 - `lib/core`: Theming, constants, and global widgets.
@@ -48,6 +30,3 @@ To enable cloud sync:
 - Advanced reporting.
 - Multi-business support.
 - WhatsApp payment reminders.
-
----
-Made with ❤️ by Antigravity
